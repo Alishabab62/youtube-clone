@@ -10,50 +10,86 @@ menuIcon.addEventListener("click", function() {
 });
 
 
-    // const user = responseJson.user;
-    // const id = responseJson._id;
-    // localStorage.setItem("user", user);
-    // localStorage.setItem("id", id);
-
-    // return { user, id };
- 
-
-window.onload = async function() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    //redirect to login page
-  } else {
-      userImg.style.display = "block";
-      signinImg.style.display = "none";
-  
-      const storedUser = localStorage.getItem("user");
-      const storedId = localStorage.getItem("id");
-      
-     
-  }
-};
-
-const bttnn = document.querySelector(".clicked")
-
-bttnn.addEventListener("click" , uploadVideoAPI)
-
-async function uploadVideoAPI() {
-    // console.log("hiiiiiiiii");
-  const data = {
-    video_url: "https://www.example.com/video.mp4",
-    description: "This is 3nd video"
-  };
-
-
-  const responseUVapi = await fetch("https://youtube-api-beta.vercel.app/video/add", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem("token")}`
-    },
-    body: JSON.stringify(data)
+async function getVideos() {
+  const videoContainer = document.querySelector('.list-container');
+  let loginToken = localStorage.getItem('loginToken');
+  let url = "https://youtube-api-beta.vercel.app/video/all/63e889b1fe3132bf07f50895";
+  let headers = new Headers();
+  headers.append('Accept', 'application/json');
+  headers.append('Authorization', `Bearer ${loginToken}`);
+  let req = new Request(url, {
+    method: 'GET',
+    headers: headers,
+    credentials: 'same-origin'
   });
-  const postData = await responseUVapi.json();
-  console.log(postData);
 
+  try {
+    let res = await fetch(req);
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    let data = await res.json();
+    videoContainer.insertAdjacentHTML('beforeend', data.map((video) => {
+
+      return `
+      <div class="vid-list">
+      <img src="/imagess/thumbnail2.png" class="thumbnail" url="${video.video_url}">
+      <div class="flex-div">
+          <img src="/imagess/Jack.png">
+          <div class="vid-in">
+              <a href="/playvideo/playvideo.html">${video.description}</a>
+              <p>Channel List name</p>
+              <p>15k Views</p>
+          </div>
+      </div>
+  </div>`
+  }).join(""))
+  let playerSideBar = document.querySelector('.right-sidebar');
+  playerSideBar.insertAdjacentHTML('beforeend', data.map((video) => {
+
+    return `
+    <div class="side-video-list">
+    <a href="" class="small-thumbnail"
+      ><img src="../imagess/thumbnail1.png"
+    /></a>
+    <div class="vid-info">
+      <a href="">${video.description}</a>
+      <p>channel name</p>
+      <p>15k Views</p>
+    </div>
+  </div>`
+}).join(""))
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+window.addEventListener("load" , getVideos);
+
+const videoContainer = document.querySelector('.list-container');
+videoContainer.addEventListener('click',videoPlayerDisplay);
+
+
+function videoPlayerDisplay(e) {
+  if (e.target.classList.contains('thumbnail')) {
+    // Hide the sidebar
+    document.querySelector('.sidebar').style.display = 'none';
+    
+    // Hide the video list container
+    document.querySelector('.container').style.display = 'none';
+    
+    // Show the video player container
+    document.querySelector('.container-player').style.display = 'block';
+    
+    // Get the video URL from the thumbnail element
+    let videoUrl = e.target.getAttribute('url');
+    
+    // Update the source of the video player
+    let videoPlayer = document.querySelector('video');
+    let source = document.querySelector('#videolink');
+    source.setAttribute('src', videoUrl);
+
+    // Load the video player
+    videoPlayer.load();
+  }
 }

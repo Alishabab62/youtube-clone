@@ -2,49 +2,56 @@
 const btn = document.querySelector(".signinbtn");
 btn.addEventListener("click", signinn);
 
+async function signinn() {
+  const emailphone = document.querySelector("#email-phone");
+  const passwords = document.querySelector("#password");
 
-async function signinn(){
-    const emailphone = document.querySelector("#email-phone")
-    const passwords = document.querySelector("#password")
-    
-    // localStorage.setItem("userId", data.id);
-
+  // localStorage.setItem("userId", data.id);
+  if (emailphone.value != "" && passwords.value != "") {
     const data = {
-        "email": `${emailphone.value}` ,
-        "password": `${passwords.value}`
+      email: `${emailphone.value}`,
+      password: `${passwords.value}`,
     };
-    
-    const response = await fetch("https://youtube-api-beta.vercel.app/user/login", 
-    
-    {
-        method:"POST",
+
+    const response = await fetch(
+      "https://youtube-api-beta.vercel.app/user/login",
+
+      {
+        method: "POST",
         headers: {
-            "Content-Type": "application/json",
-          },
-        body:JSON.stringify(data)
-    })
-    
-    const getdata = await response.json()
-    if(getdata.token){
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
-        localStorage.setItem("token",getdata.token);
-        window.location.href = "http://127.0.0.1:5500/index.html";
-    }else{
-        window.location.href = "http://127.0.0.1:5500/signup/signup.html";
-        // localStorage.setItem("user_id", getdata.id);
+    const getData = await response.json();
+    if (getData.message == "Incorrect password") {
+      document.querySelector(".message").innerText = "Incorrect password";
+      setTimeout(() => {
+        document.querySelector(".message").innerText = "";
+      }, 1500);
+    } else if (getData.message == "User not found") {
+      document.querySelector(".message").innerText = "User not exists";
+      setTimeout(() => {
+        document.querySelector(".message").innerText = "";
+      }, 1500);
+    } else if (getData.token) {
+      localStorage.setItem('loginToken' , getData.token);
+      console.log(getData.token)
+    } else {
+      document.querySelector(".message").innerText = "Something went wrong";
+      setTimeout(() => {
+        document.querySelector(".message").innerText = "";
+      }, 1500);
     }
-   
-      
-    console.log(getdata);
+  } else {
+    document.querySelector(".message").innerText = "Enter all fields";
+    setTimeout(() => {
+      document.querySelector(".message").innerText = "";
+    }, 1500);
+  }
 }
-
-
-
-
-
-
-
-
 
 // const videoData = {
 //     "video_url": "https://www.example.com/video.mp4",
@@ -68,29 +75,11 @@ async function signinn(){
 //   console.error(error);
 // });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // // // Store the token in local storage after a successful login
 // // function storeToken(token) {
 // //     localStorage.setItem('token', token);
 // //   }
-  
+
 // //   // Send the token in the headers of an authenticated request
 // //   function makeAuthenticatedRequest(url) {
 // //     const token = localStorage.getItem('token');
@@ -106,7 +95,7 @@ async function signinn(){
 // //       return response.json();
 // //     });
 // //   }
-  
+
 // //   // Use the makeAuthenticatedRequest function to access protected resources
 // //   makeAuthenticatedRequest('https://youtube-api-beta.vercel.app/user/login')
 // //   .then(data => {
@@ -116,5 +105,3 @@ async function signinn(){
 // //   .catch(error => {
 // //     console.error(error);
 // //   });
-  
-

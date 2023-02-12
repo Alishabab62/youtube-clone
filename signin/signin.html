@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="signin.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="signin.css" />
     <title>Youtube</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="main-container">
-       
-        <div class="google-signin-text-image">
-            <img src="../imagess/sinintext.png">
-        </div>
-       
-        <input type="text" placeholder="Email or phone" id="email-phone">
-        <input type="password" placeholder="password" id="password">
-    
-    
-        <h5 id="forgot-email">Forgot email?</h5>
-    
-        <p>Not your computer? Use Guest mode to sign in privately. <span> Learn more</span></p>
-    
-    
-        <div class="create-account-next-btn">
-            <a style="text-decoration: none;" href="/signup/signup.html"><h5>Create account</h5></a>
-        
+      <div class="google-signin-text-image">
+        <img src="../imagess/sinintext.png" />
+      </div>
+
+      <input type="text" placeholder="Email or phone" id="email-phone" />
+      <input type="password" placeholder="password" id="password" />
+      <div
+        class="message"
+        style="
+          text-align: center;
+          color: rgba(255, 0, 0, 0.57);
+          font-size: 13px;
+        "
+      ></div>
+
+      <h5 id="forgot-email">Forgot email?</h5>
+
+      <p>
+        Not your computer? Use Guest mode to sign in privately.
+        <span> Learn more</span>
+      </p>
+
+      <div class="create-account-next-btn">
+        <a style="text-decoration: none" href="/signup/signup.html"
+          ><h5>Create account</h5></a
+        >
+
         <button class="signinbtn">Sign-in</button>
+      </div>
     </div>
-</div>
-<script async src="signin.js"></script>
-</body>
+    <script async src="signin.js"></script>
+  </body>
 </html>
