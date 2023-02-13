@@ -23,41 +23,51 @@ async function getVideos() {
     credentials: 'same-origin'
   });
 
-
+  try {
     let res = await fetch(req);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
     let data = await res.json();
-    console.log(data)
-    videoContainer.insertAdjacentHTML('beforeend', data.map((video) => {
-
+    console.log(data);
+    let videoElements = data.map((video) => {
       return `
       <div class="vid-list">
-      <img src="/imagess/thumbnail2.png" class="thumbnail" url="${video.video_url}">
-      <div class="flex-div">
+        <img src="/imagess/thumbnail2.png" class="thumbnail" url="${video.video_url}">
+        <div class="flex-div">
           <img src="/imagess/Jack.png">
           <div class="vid-in">
-              <a href="/playvideo/playvideo.html">${video.description}</a>
-              <p>Channel List name</p>
-              <p>15k Views</p>
+            <a href="/playvideo/playvideo.html">${video.description}</a>
+            <p>Channel List name</p>
+            <p>15k Views</p>
           </div>
+        </div>
       </div>
-  </div>`
-  }).join(""))
-  let playerSideBar = document.querySelector('.right-sidebar');
-  playerSideBar.insertAdjacentHTML('beforeend', data.map((video) => {
+      `;
+    });
+    videoContainer.insertAdjacentHTML('beforeend', videoElements.join(""));
 
-    return `
-    <div class="side-video-list">
-    <a href="" class="small-thumbnail"
-      ><img src="../imagess/thumbnail1.png"
-    /></a>
-    <div class="vid-info">
-      <a href="">${video.description}</a>
-      <p>channel name</p>
-      <p>15k Views</p>
-    </div>
-  </div>`
-}).join(""))
-  } 
+    let playerSideBar = document.querySelector('.right-sidebar');
+    let sideVideoElements = data.map((video) => {
+      return `
+      <div class="side-video-list">
+        <a href="" class="small-thumbnail">
+          <img src="../imagess/thumbnail1.png"/>
+        </a>
+        <div class="vid-info">
+          <a href="">${video.description}</a>
+          <p>channel name</p>
+          <p>15k Views</p>
+        </div>
+      </div>
+      `;
+    });
+    playerSideBar.insertAdjacentHTML('beforeend', sideVideoElements.join(""));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 
 window.addEventListener("load" , getVideos);
