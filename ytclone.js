@@ -59,7 +59,7 @@ async function getVideos() {
 }).join(""))
   } catch (error) {
     console.error(error);
-  }
+  } 
 }
 
 window.addEventListener("load" , getVideos);
