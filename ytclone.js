@@ -57,8 +57,6 @@ async function getVideos() {
     </div>
   </div>`
 }).join(""))
-  } catch (error) {
-    console.error(error);
   } 
 }
 
