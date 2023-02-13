@@ -23,7 +23,7 @@ async function getVideos() {
     credentials: 'same-origin'
   });
 
-  try {
+
     let res = await fetch(req);
     let data = await res.json();
     console.log(data)
@@ -58,7 +58,7 @@ async function getVideos() {
   </div>`
 }).join(""))
   } 
-}
+
 
 window.addEventListener("load" , getVideos);
 
