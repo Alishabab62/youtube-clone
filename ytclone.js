@@ -65,8 +65,14 @@ async function getVideos() {
     playerSideBar.insertAdjacentHTML('beforeend', sideVideoElements.join(""));
   } catch (error) {
     console.error(error);
+    if (error.message.includes('Unauthorized')) {
+      // Handle unauthorized error here
+    } else {
+      // Handle other errors here
+    }
   }
 }
+
 
 
 
